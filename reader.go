@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 
 	"code.google.com/p/gopass"
@@ -10,13 +11,18 @@ import (
 	"github.com/danawoodman/clog"
 )
 
+var path = flag.String("path", "users.json", "The path to the users JSON file.")
+
 func main() {
 
+	flag.Parse()
+
 	// Open up the users database file
-	db, err := auth.New()
+	db, err := auth.New(*path)
 	if err != nil {
 		panic(err)
 	}
+	clog.Success(fmt.Sprintf("User database `%s` loaded", *path))
 
 	// Create a new door lock instance.
 	d := door.NewDoorLock()
@@ -41,7 +47,7 @@ func main() {
 			}
 
 			// The code was authenticated and no errors were raised, open up the door!
-			_, err = d.Unlock()
+			err = d.Unlock()
 			if err != nil {
 				clog.Error(fmt.Sprintf("Error unlocking door! %s", err.Error()))
 				continue
