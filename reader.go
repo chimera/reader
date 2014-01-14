@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 
 	"code.google.com/p/gopass"
 	"github.com/danawoodman/clog"
