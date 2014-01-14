@@ -4,10 +4,10 @@ import (
 	"fmt"
 
 	"code.google.com/p/gopass"
-	"github.com/danawoodman/clog"
 
 	"github.com/chimera/auth"
 	"github.com/chimera/door"
+	"github.com/danawoodman/clog"
 )
 
 func main() {
@@ -46,7 +46,6 @@ func main() {
 				clog.Error(fmt.Sprintf("Error unlocking door! %s", err.Error()))
 				continue
 			}
-
 			clog.Success(fmt.Sprintf("Welcome in %s!", user.Name))
 		}
 	}
