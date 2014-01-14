@@ -12,6 +12,12 @@ import (
 
 func main() {
 
+	// Open up the users database file
+	db, err := auth.New()
+	if err != nil {
+		panic(err)
+	}
+
 	// Create a new door lock instance.
 	d := door.NewDoorLock()
 
@@ -28,18 +34,17 @@ func main() {
 		if code != "" {
 
 			// TODO: Actually authenticate code here...
-			ok, err := auth.IsAuthenticated(code)
+			user, err := db.FindUser(code)
 			if err != nil {
-				log.Println(err)
 				clog.Error(err.Error())
+				continue
 			}
 
 			// The code was authenticated and no errors were raised, open up the door!
-			if ok {
-				_, err = d.Unlock()
-				if err != nil {
-				}
+			_, err = d.Unlock()
+			if err != nil {
 				clog.Error(fmt.Sprintf("Error unlocking door! %s", err.Error()))
+				continue
 			}
 
 			clog.Success(fmt.Sprintf("Welcome in %s!", user.Name))
